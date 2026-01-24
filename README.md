@@ -249,6 +249,63 @@ The collection of all key points mentioned in game design programming class in U
     - a value type defined by a sequence of named constants
 
 ## Game Design And Interactive Media 32 Intermediate Game Programming
+- Statics methods & variables
+    - Random.Range()
+        - used to generate random values
+        - parameters: a minimum and maximum value
+        - returns: a random value between the minimum and maximum values given
+        - float x = Random.Range(0,1);
+    - static
+        - means the method/variable is usable without an object
+        - allows us to access a class's methods or variables from the class itself of from an object
+        - public class Vector3{
+            public static float Distance(Vector3 a, Vector3 b){
+                ...
+            }
+            public class Bird{
+                public void UpdateState(){
+                    float d = Vector3.Distance(...);
+                }
+            }
+          }
+- Inheritance
+    - several objects have many same behaviors and also some unique behaviors
+    - enables us to define parent classes which child classes will derive actions and attributes from
+    - all class in Unity that you want to be a component inherit from MonoBehavior
+    - public class Animal{                  // parent class
+        public float _speed;
+        public void Run();
+        public void Pet();
+      }
+      public class Fox : Animal{            // child class
+        ...
+      }
+        - Fox can do anything that Animal can, like Run() and Pet()
+    - protected access modifier only allows the class itself and subclasses to access the variable
+    - Polymorphism
+        - for when we want the same input to have a different result
+        - add virtual keyword to the parent method and override keyword to the child method to override an inherited method
+        - public class Animal{
+            public virtual void Pet();
+          }
+          public class Dog : Animal {
+            public override void Pet(){
+                // be nice
+            }
+          }
+          public class Tiger : Animal {
+            public override void Pet(){
+                // be mean
+            }
+          }
 
-- Statics
+- Finite state machine
+    - one of many design patterns we might use while programming something
+    - better use enum to separate/list states
+    - only one state can occur at one time
+    - UpdateState()
+        - based on the environment, decide with activity the bear is engaged in
+    - UpdateBehavior()
+        - based on the bear's state, do actions
 
+    
