@@ -155,6 +155,18 @@ The collection of all key points mentioned in game design programming class in U
     - All kinds of animations in unity are stored as Animation Clips
     - Animator controllers are used to store a collection of clips and decide when to play each clip
     - Parameters are used to cause transitions between clips 
+    - Set up:
+        - window > animation > animator
+        - create animation clips
+        - add parameter: parameter tab > + > add a parameter
+            - determines when to switch between different animation clips
+        - right click animation clip > make transition > click another animation clip
+            - create transition
+            - click the link to set conditions for transition
+    - Bool parameters
+        - Animation.SetBool() to change value
+    - Trigger parameters
+        - Animation.SetTrigger() to activate the trigger parameter
 
 - Access modifier
     - specifies whether or not a method or member variable can be used outside of class it was defined in
@@ -163,7 +175,69 @@ The collection of all key points mentioned in game design programming class in U
     - [SerializedField] tag makes private variables show up in the inspector
 
 - Prefab
-    - 
+    - a template of a GameObject that's saved to the project assests and can be reused
+    - if you change the settings in a prefab, it changes those setting for all instances of the object
+    - Instantiate()
+        - a method usable by any MonoBehavior class
+        - spawns/creates the object in the scene
+        - TMP_Text textObj = Instantiate(_reactionUIPrefab, layout.transform);
+            - Instantiate(): makes a copy of the object
+            - _reactionUIPrefab: first argument, the object to copy
+            - layout.transform: second argument, the PARENT to give the instantiated object
+    - Destory()
+        - a method usable by any MonoBehavior class
+        - Destroy(_sphereTransform);
+            - romoves object from the scene
+
+- List
+    - List<string> names = new List<string>();
+      name.Add("Willow");               // name[0] = "Willow"
+      name.Add("Momo");                 // name[1] = "Momo"
+    - List can change its size after you declare them
+    - Remove()
+        - name.Remove(name[0])              // "Willow" is removed from the list, and name[0] becomes "Momo"
+    - RemoveAt()
+        - can move a specific item from the list
+    - Using library
+        - if you want to use list we should include this line
+        - using System.Collections.Generic;
+    - name.Count = number of items in a list
+
+- foreach statement
+    - foreach(string name in names){
+        ...
+        }
+        - string name: iteration variable
+        - in: keyword
+        - names: collection
+
+- switch statement
+    - used for making branching decisions in code
+    - int month = 10;
+      switch(month){
+        case 9:
+            Debug.Log("September");
+            break;                          // stops and exits the switch statment
+        case 10:
+            Debug.Log("October");
+            break;
+        case 11:
+            Debug.Log("November");
+            break;
+        default:
+            Debug.Log("idk");
+            break;
+      }
+
+- Enum
+    - public enum Rarity{
+        common, uncommon, rare
+        }
+
+      public class gift : MonoBehavior{
+        private Rarity rarity;
+        }
+    - a value type defined by a sequence of named constants
 
 ## Game Design And Interactive Media 32 Intermediate Game Programming
 
