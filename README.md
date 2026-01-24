@@ -1,4 +1,4 @@
-# unityreview
+# Unity and C# Review
 The collection of all key points mentioned in game design programming class in UC Irvine.
 
 
