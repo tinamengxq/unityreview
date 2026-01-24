@@ -54,6 +54,15 @@ The collection of all key points mentioned in game design programming class in U
         ...
         }
         - this method is called when this GameObject's collider intersects with another Collider that doesn't have IsTrigger checked
+    - Body type
+        - Dynamic (default)
+            - used for collision and physics simualtions
+            - we are going to set the velocity and add forces to this Rigidbody from out code, and Unity will run the physics for us
+            - _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 4.0f);
+        - Kinematic
+            - used solely for collision detection
+            - we are going to move the Transform of this GameObject directly from our code, and Unity will not run physics on it 
+            - _playerTransform.Translate(Vector3.up * _speed * Time.deltaTime);
     
 - Tag
     - A good way to differentiate different types of objects
@@ -241,5 +250,5 @@ The collection of all key points mentioned in game design programming class in U
 
 ## Game Design And Interactive Media 32 Intermediate Game Programming
 
-
+- Statics
 
