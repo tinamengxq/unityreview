@@ -308,4 +308,99 @@ The collection of all key points mentioned in game design programming class in U
     - UpdateBehavior()
         - based on the bear's state, do actions
 
-    
+- Component life cycle
+    1. the life cycle begins with initialization messages
+        - Awake()
+        - OnEnable()
+        - Start()
+    2. while the game is running, every object is sent messages through the update loop
+        - OnTrigger()/OnCollision()
+        - Update()
+    3. finally, when an object is disabled or destroyed, it exits the loop through Decommissioning messages
+        - OnDisable()
+        - OnDestroy()
+
+- Awake
+    - is called before Start()
+    - is called right as a component is being loaded in the scene
+    - we can guarantee that any code in a component's Awake() method will run before ANY other component's Start() methods
+
+- C# events
+    - public class Player{
+        public delegate void IntDelegate(int x);    // message
+        public event IntDelegate PointsChanged;     // sender
+
+        void OnTriggerEnter2D(Collider2D collider){
+            if(//player hits point zone){
+                ...
+                PointsChanged?.Invoke();            // sender: the event is being sent to the receiver
+            }
+        }
+      }
+    - The event sender defines the delegate and event, and fires/invokes the event
+    - Delegate
+        - delegate look like a method signature with the delegate keyword added
+            - the delegate keyword
+            - a return type
+            - a name
+            - parameters
+    - Event
+        - Events help us create loosely coupled code, where an object can project a message about something important happening, and interested objects can subscribe to the messages
+        - after the delegate, define the event
+            - the event keyword
+            - a delegate
+            - a name
+    - public class UI{
+        private void Start(){
+            _player.PointsChanged += HandlePointsChanged;
+        }
+        public void HandlePointsChanged(int points){
+            ...
+        }
+      }
+    - += operator
+        - This is used to subscribe a method to an event.
+        - HPC function will be called once PC is fired
+        - Any method subscribed to an event must have the exact same return type and parameters as the event's delegate
+    - Invoke()
+        - finally, fire the event by called Invoke()
+
+- C# properties
+    - Properties are member variables that let you define different access modifiers for setting the value and getting the value
+    - public class Player{
+        public int Health{
+            get;                                    // getting the value is public
+            private set;                            // setting the value is private, we cann't change vlue outside Player class
+        }
+      }
+
+- Singleton design pattern
+    - Any class that wants to subscribe to events from the player still needs to store a reference to the player in order to subscribe to its events
+    - To maintain loose coupling, we should create another layer between systems, which is locator
+    - Locator
+        1. the Locator class should be accessible from the code ANYWHERE, at ANY TIME, and there should only over be ONE of it
+        2. the Locator should have a reference to the Player
+    - A class that is designed to only have ONE object existing at a time is called a Singleton
+    - public class Locator : MonoBehavior{
+        public static Locator Instance { get; private set; }                    // 1
+        public PlayerController Player { get; private set; }                    // 3
+
+        private void Awake(){
+            if (Instance != null && Instance != this){                          // 2
+                Destory(this);                                                  // 2
+                return;                                                         // 2
+            }
+
+            Instance = this;
+
+            GameObject playerObj = GameObject.FindWithTag("Player");            // 3
+            Player = playerObj.GetComponent<PlayerController>();                // 3
+        }
+      }
+        1. We need to make sure only ONE object of the class can exist at one time
+        1. defines a property named Instance
+        1. It is static so that you can use it directly on the class name
+        2. This code actually creates the Instance object, and guarantees that even if you add it to the Scene twice, there will only be one
+        2. This code checks to see if any Instance object exist other than this, and delete if so
+        3. These codes ensure Locator has a reference to the Player object without you having to set up anything in the Inspector
+    - Now we can just write Locater.Instance.Player anywhere in the code
