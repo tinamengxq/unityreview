@@ -397,10 +397,10 @@ The collection of all key points mentioned in game design programming class in U
                     Player = playerObj.GetComponent<PlayerController>();                // 3
                 }
             }
-        1. We need to make sure only ONE object of the class can exist at one time
-        1. defines a property named Instance
-        1. It is static so that you can use it directly on the class name
-        2. This code actually creates the Instance object, and guarantees that even if you add it to the Scene twice, there will only be one
-        2. This code checks to see if any Instance object exist other than this, and delete if so
-        3. These codes ensure Locator has a reference to the Player object without you having to set up anything in the Inspector
+        - (1)We need to make sure only ONE object of the class can exist at one time
+        - (1)defines a property named Instance
+        - (1)It is static so that you can use it directly on the class name
+        - (2)This code actually creates the Instance object, and guarantees that even if you add it to the Scene twice, there will only be one
+        - (2)This code checks to see if any Instance object exist other than this, and delete if so
+        - (3)These codes ensure Locator has a reference to the Player object without you having to set up anything in the Inspector
     - Now we can just write Locater.Instance.Player anywhere in the code
