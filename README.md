@@ -12,10 +12,10 @@ The collection of all key points mentioned in game design programming class in U
 - Methods
     - given input, run an operation, give back output
     - signature = output, name, inputs
-    - int AddInts (int x, int y){           // signature        // (int x, int y): parameters        // int: return type
-        int z = x + y;                      // body             // int z = x + y; : operations
-        return z;                           // body             // return z; : return statement
-        }
+    -        int AddInts (int x, int y){           // signature        // (int x, int y): parameters        // int: return type
+                int z = x + y;                      // body             // int z = x + y; : operations
+                return z;                           // body             // return z; : return statement
+                }
     - "void" return type, no return statement, doesn't return anything
 
 
