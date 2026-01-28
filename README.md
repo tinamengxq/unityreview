@@ -387,7 +387,7 @@ The collection of all key points mentioned in game design programming class in U
 
                 private void Awake(){
                     if (Instance != null && Instance != this){                          // 2
-                        Destory(this);                                                  // 2
+                        Destroy(this);                                                  // 2
                         return;                                                         // 2
                     }
 
