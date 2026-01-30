@@ -404,3 +404,11 @@ The collection of all key points mentioned in game design programming class in U
         - (2)This code checks to see if any Instance object exist other than this, and delete if so
         - (3)These codes ensure Locator has a reference to the Player object without you having to set up anything in the Inspector
     - Now we can just write Locater.Instance.Player anywhere in the code
+
+- Model-View-Controller system
+    - a pattern that systems are decoupled from each other
+        - Model represents game data
+        - View represents visuals and results
+        - Controller represents pure game logic
+        - Controller stewards Model; Viewer listen to Controller 
+        - View subscribes to Controller events and reacts to changes
