@@ -412,3 +412,88 @@ The collection of all key points mentioned in game design programming class in U
         - Controller represents pure game logic
         - Controller stewards Model; Viewer listen to Controller 
         - View subscribes to Controller events and reacts to changes
+
+- Abstract classes
+    - Abstraction is the object-oriented programming concept of hiding details from a user and only showing essential information
+    ```
+    public abstract class Animal(){
+        public abstract void Run();
+    }
+    public class Fox : Animal{
+        public override void Run(){
+            // The child class must implement the parent's abstract methods
+        }
+    }
+    ```
+    - Abstract classes ...
+        - can't be made into an object - only child classes can
+        - can't become components
+        - are useful for requiring all children to implement certain methods, as the abstract (empty) methods must be implemented by the child
+        - child can only inherit from 1 class at a time
+    - Use abstract classes when you want to be able to implement shared behavior and member variables for child classes
+
+- Interface
+    ```
+    public interface IPettable{
+        void Pet();
+    }
+    public class Dog : IPettable{
+        public void Pet(){
+            Debug.Log("<wags tail happily">);
+        }
+    }
+    ```
+    - Are essentially totally abstract classes
+    - can't have any member variables
+    - all methods are public and abstract by default
+    - are often used to defined actions that can be done to a variety of unrelated classes
+    - have abstract method
+    - child can inherit from multiplie interfaces
+    - Use interface when you want to define required behavior for lots of different, potentially unrelated objects.
+
+- Base keyword
+    - The base keyword can be used to run the parent class's implementation of a method in inheritance
+    ```
+    public class Animal : MonoBehavior{
+        protected float _health;
+        public virtual void Eat(){
+            _health ++;
+            Debug.Log("Ate food");
+        }
+    }
+    public class Dog : Animal{
+        public override void Eat(){
+            base.Eat();
+            Debug.Log("<makes a happy bark sound">);
+        }
+    }
+    ```
+    - both "Ate food" and "makes a happy bark sound" will appear in the console.
+    - base.Eat() will run the base class's Eat method
+
+- Game data
+    - A game's data encompasses all kinds of information or settings for different objects the player might encounter
+    - Regardless of your solution, it's good practice to keep logic (behaviors, actions) in code and data in assets
+
+- Scriptable objects
+    - Items
+    ```
+    [CreateAssetMenu(fileName = "Item", MenueName = "ScriptableObjects/Item", order = 1)]
+    public class Item : ScriptableObject{
+        public string name;
+        public string description;
+        public Sprite icon;
+    }
+    ```
+    - To create a ScriptableObject, you must first create a class that inherits from the ScriptableObject class
+    - The CreateAssetMenu tag allows you to create a shortcut in the right-click menu in the Project window to create an actual asset from the ScriptableObject you defined here.
+    - Inside the class, any of the public (or SerializedField private) member variables you add will appear in the Inspector of the asset
+    - Like any objects, ScriptableObjects can be added as a member variable of any class in your game
+    ```
+    public class Player : MonoBehavior{
+        [SerializedField]private List<Item> _inventory;
+    }
+    ```
+    - ScriptableObjects are not components or gameObjects
+
+
