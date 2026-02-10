@@ -2,13 +2,14 @@
 The collection of all key points mentioned in game design programming class in UC Irvine.
 
 
-## Game Design And Interactive Media 31  Introduction to Game Programming
+## Game Design And Interactive Media 31 Introduction to Game Programming
+### Debug.Log()
 - Console output
     - Debug.Log() put things in the console. 
         - it is also a method
         - it doesn't return anything
 
-
+### Method, class
 - Methods
     - given input, run an operation, give back output
     - signature = output, name, inputs
@@ -30,16 +31,19 @@ The collection of all key points mentioned in game design programming class in U
     - only MonoBehavior classes can be Components
     - (member variables can be inspector fields only if they say "[SerializedField] private" or "public")
 
+### Time.deltaTime
 - Time.deltaTime
     - a member variable of Time class
     - the interval in seconds between frames
 
+### Update, Start
 - void Update()
     - runs every frame 
 
 - void Start()
     - runs ONCE before the game loop starts
 
+### Coliison, Tag, GetComponent<>
 - Collision
     - unity simulates physics with Rigidbody2D and detects collision with Collider2D
     - Is Trigger
@@ -82,6 +86,7 @@ The collection of all key points mentioned in game design programming class in U
     - GetComponent method might return null if the GameObject doesn't have that type of component
     - <SomeClass> is the component we are looking for
 
+### Transform, vector
 - Transform
     - The Transform component can be used to change the position, rotation, and scale of GameObject
     - EVERY gameobject has a Transfrom component
@@ -101,6 +106,7 @@ The collection of all key points mentioned in game design programming class in U
                 transform.position += direction;
         // The position will change into (2, 0 ,3);
 
+### Player input
 - Player input
     -       private void Update(){
                 Vector3 movement = Vector3.zero;
@@ -110,10 +116,12 @@ The collection of all key points mentioned in game design programming class in U
                 transform.Translate(movement * _moveSpeed * Time.deltaTime);
                 }
 
+### Disable gameObject
 - Disable and Enable
     -       gameObject.SetActive(false);
         - when used inside MonoBehavior, this disables EVERY component on a GameObject by setting the GameObject to be inactive
 
+### For loop
 - For loop
     - structured simiarly to if statement
     - inside the parentheses, we define the rules for how many times the loop repeats
@@ -122,6 +130,7 @@ The collection of all key points mentioned in game design programming class in U
                 x += 2;                             // the code we will repeat
             }
 
+### Array
 - Array
     -       float[] itemCosts = {15, 12, 10};
         - the container is called array
@@ -139,6 +148,7 @@ The collection of all key points mentioned in game design programming class in U
     - arrays are variables that contain multiple values
     - itemCosts.Length: tells the total number of entries in an array
 
+### Coordinate Space
 - Coordinate Space
     - a relative space that vectors live in
     - defined by an origin and a rotation
@@ -155,6 +165,7 @@ The collection of all key points mentioned in game design programming class in U
         -       Vector3 up = transform.TransformDirection(...);
                 transform.RotateAround(transform.position, up, speed);
 
+### Tilemap, Animation
 - Tilemaps
     1. Assets > Sprites > Environment > unfold the asset
     2. right click the asset > create > 2D > Tile Palette > Rectangular
@@ -177,12 +188,14 @@ The collection of all key points mentioned in game design programming class in U
     - Trigger parameters
         - Animation.SetTrigger() to activate the trigger parameter
 
+### SerializedField
 - Access modifier
     - specifies whether or not a method or member variable can be used outside of class it was defined in
     - public: the variable/method can be accessed outside of the class
     - private: the variable/method cannot be accessed outside of the class
     - [SerializedField] tag makes private variables show up in the inspector
 
+### Prefab
 - Prefab
     - a template of a GameObject that's saved to the project assests and can be reused
     - if you change the settings in a prefab, it changes those setting for all instances of the object
@@ -198,6 +211,7 @@ The collection of all key points mentioned in game design programming class in U
         -       Destroy(_sphereTransform);
             - romoves object from the scene
 
+### List
 - List
     -       List<string> names = new List<string>();
             name.Add("Willow");               // name[0] = "Willow"
@@ -212,6 +226,7 @@ The collection of all key points mentioned in game design programming class in U
         - using System.Collections.Generic;
     -           name.Count = number of items in a list
 
+### Foreach, switch
 - foreach statement
     -       foreach(string name in names){
                 ...
@@ -238,6 +253,7 @@ The collection of all key points mentioned in game design programming class in U
                     break;
             }
 
+### Enum
 - Enum
     -       public enum Rarity{
                 common, uncommon, rare
@@ -249,6 +265,7 @@ The collection of all key points mentioned in game design programming class in U
     - a value type defined by a sequence of named constants
 
 ## Game Design And Interactive Media 32 Intermediate Game Programming
+### Statics
 - Statics methods & variables
     - Random.Range()
         - used to generate random values
@@ -268,6 +285,8 @@ The collection of all key points mentioned in game design programming class in U
                         }
                     }
                 }
+
+### Interitance, Polymorphism
 - Inheritance
     - several objects have many same behaviors and also some unique behaviors
     - enables us to define parent classes which child classes will derive actions and attributes from
@@ -299,6 +318,7 @@ The collection of all key points mentioned in game design programming class in U
                     }
                 }
 
+### FSM
 - Finite state machine
     - one of many design patterns we might use while programming something
     - better use enum to separate/list states
@@ -308,6 +328,7 @@ The collection of all key points mentioned in game design programming class in U
     - UpdateBehavior()
         - based on the bear's state, do actions
 
+### Component life cycle
 - Component life cycle
     1. the life cycle begins with initialization messages
         - Awake()
@@ -325,6 +346,7 @@ The collection of all key points mentioned in game design programming class in U
     - is called right as a component is being loaded in the scene
     - we can guarantee that any code in a component's Awake() method will run before ANY other component's Start() methods
 
+### Events
 - C# events
     -       public class Player{
                 public delegate void IntDelegate(int x);    // message
@@ -374,6 +396,7 @@ The collection of all key points mentioned in game design programming class in U
                 }
             }
 
+### Singleton
 - Singleton design pattern
     - Any class that wants to subscribe to events from the player still needs to store a reference to the player in order to subscribe to its events
     - To maintain loose coupling, we should create another layer between systems, which is locator
@@ -404,7 +427,7 @@ The collection of all key points mentioned in game design programming class in U
         - (2)This code checks to see if any Instance object exist other than this, and delete if so
         - (3)These codes ensure Locator has a reference to the Player object without you having to set up anything in the Inspector
     - Now we can just write Locater.Instance.Player anywhere in the code
-
+#### MVC system
 - Model-View-Controller system
     - a pattern that systems are decoupled from each other
         - Model represents game data
@@ -412,7 +435,7 @@ The collection of all key points mentioned in game design programming class in U
         - Controller represents pure game logic
         - Controller stewards Model; Viewer listen to Controller 
         - View subscribes to Controller events and reacts to changes
-
+#### Abstract, interface
 - Abstract classes
     - Abstraction is the object-oriented programming concept of hiding details from a user and only showing essential information
     ```
@@ -474,7 +497,7 @@ The collection of all key points mentioned in game design programming class in U
 - Game data
     - A game's data encompasses all kinds of information or settings for different objects the player might encounter
     - Regardless of your solution, it's good practice to keep logic (behaviors, actions) in code and data in assets
-
+#### Scriptable objects
 - Scriptable objects
     - Items
     ```
@@ -496,6 +519,7 @@ The collection of all key points mentioned in game design programming class in U
     ```
     - ScriptableObjects are not components or gameObjects
 
+### Gitignore
 - .gitignore
 ```
 # This .gitignore file should be placed at the root of your Unity project directory
@@ -837,3 +861,22 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 ```
+
+### Gizmos
+- Gizmos
+    - A tool in Unity to draw custom shapes and lines in your scene window
+    ```
+    private void OnDrawGizmos(){
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, _lastMovementDirection*_force);
+    }
+    ```
+    - OnDrawGizmos() function allows us to add extra visualizations to our scene view to help us debug
+    - Any Gizmos function written after defining Gizmos.color will draw with that color
+    - DrawRay() is used to show what direction the gameObject is moving in - elsewhere, Gizmos are also drawing the other gameObject's velocity and object's colliders
+    - Only works inside of MonoBehavior.OnDrawGizmos()
+
+### Breakpoint
+- Breakpoints
+    - Breakpoints are a tool you can use while debugging code with VScode to make the program stop (break) at a certain line of code (point)
+    - You can set conditions on breakpoints, so that breakpoints will only activate under certain circumstances
