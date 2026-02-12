@@ -955,3 +955,11 @@ FodyWeavers.xsd
     }
 
 ### Coordinate space
+- Convert vectors from object space to world space
+    - TransformPoint
+        - converts a location from object space to world space
+    - InverseTransformPoint
+        - converts a loaction from world space to object space
+    ```
+    Ray straightDownRay = new Ray(transform.TransformPoint(_slopeRaycastOrigin), Vector3.down);
+    ```
