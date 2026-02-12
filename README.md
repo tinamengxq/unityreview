@@ -328,7 +328,7 @@ The collection of all key points mentioned in game design programming class in U
     - UpdateBehavior()
         - based on the bear's state, do actions
 
-### Component life cycle
+### Component life cycle (awake)
 - Component life cycle
     1. the life cycle begins with initialization messages
         - Awake()
@@ -346,7 +346,7 @@ The collection of all key points mentioned in game design programming class in U
     - is called right as a component is being loaded in the scene
     - we can guarantee that any code in a component's Awake() method will run before ANY other component's Start() methods
 
-### Events
+### Events, properties
 - C# events
     -       public class Player{
                 public delegate void IntDelegate(int x);    // message
@@ -427,7 +427,8 @@ The collection of all key points mentioned in game design programming class in U
         - (2)This code checks to see if any Instance object exist other than this, and delete if so
         - (3)These codes ensure Locator has a reference to the Player object without you having to set up anything in the Inspector
     - Now we can just write Locater.Instance.Player anywhere in the code
-#### MVC system
+
+### MVC system
 - Model-View-Controller system
     - a pattern that systems are decoupled from each other
         - Model represents game data
@@ -435,7 +436,8 @@ The collection of all key points mentioned in game design programming class in U
         - Controller represents pure game logic
         - Controller stewards Model; Viewer listen to Controller 
         - View subscribes to Controller events and reacts to changes
-#### Abstract, interface
+
+### Abstract, interface, base
 - Abstract classes
     - Abstraction is the object-oriented programming concept of hiding details from a user and only showing essential information
     ```
@@ -497,7 +499,8 @@ The collection of all key points mentioned in game design programming class in U
 - Game data
     - A game's data encompasses all kinds of information or settings for different objects the player might encounter
     - Regardless of your solution, it's good practice to keep logic (behaviors, actions) in code and data in assets
-#### Scriptable objects
+
+### Scriptable objects
 - Scriptable objects
     - Items
     ```
@@ -880,3 +883,75 @@ FodyWeavers.xsd
 - Breakpoints
     - Breakpoints are a tool you can use while debugging code with VScode to make the program stop (break) at a certain line of code (point)
     - You can set conditions on breakpoints, so that breakpoints will only activate under certain circumstances
+
+### Vector substraction, dot, normalizing, surface normal, raycasting
+- Vector subtraction
+    - If we subtract B - A, we get a vector that points from A to B 
+    - B: Player position; A: NPC position
+        - The (B-A) vector is the direction the NPC should move in order to move towards the player.
+        - We add (B-A) to the NPCs' position to make them move closer to the player every frame.
+    - make NPC (cow) to face to the player
+    ```
+    private void Update(){
+        // create vector pointing from the player to the cow
+        _meToPlayer = player.transform.position - transform.position;
+        _meToPlayer = _meToPlayer.normalized;
+        // apply displacement to cow's position
+        transform.position += _meToPlayer * _speed * Time.deltaTime;
+    }
+    ```
+
+- Dot products
+    - A dot product results in a scalar 
+    - Tells us the angle between two vectors
+    - Value always from -1 to 1
+        - -1 to 0: obtuse angle
+        - 0 to 1: acute angle
+        - 0: perpendicular
+    - check if an object (duck) is facing another
+    ```
+    private void Update(){
+        // get vector pointing from the duck to the player
+        _playerToMe = transform.position - _playerPos;
+        // test if dot product between _playerToMe and my forward vector is positive;
+        float dot = Vector3.Dot(_playerToMe, _playerForward);
+        bool playerIsFacingMe = dot >= 0;
+    }
+    ```
+
+- Normalizing
+    - Unit vector has magnitude 1. 
+        - Only tells use a direction
+        - In Math, we can transfer any vector to be a unit vector by dividing it by its magnitude
+            - u = v / |v|
+    - The process of creating a unit vector is called normalizing a vector
+
+- Surface normals
+    - Cross product of two vectors is a vector that's perpendicular to both of the original vectors
+    - vector a and vector b forms a surface, n = a x b, n is the surface normal
+        - Surface normal is a vector that's perpendicular to a surface
+    - It tells use which direction the surface is facing
+
+- Raycasting
+    - Raycasting is the act of firing an arrow from a certain point into the game scene and see what it hits
+    - A ray need 2 vectors: 
+        - the origin (start point)
+        - the direction
+    - using a raycast to a surface normal to prevent the NPC (chicken) from scaling cliffs
+    ```
+    private void Update(){
+        _slopeRaycastOrigin = transform.position + new Vector3(0, 1, 0);
+        Ray straightDownRay = new Ray(_slopeRaycastOrigin, Vector3.down);
+        // cast a ray into the scene
+        if (_groundCollider.Raycast(straightDownRay, out _raycastHit, _maxGroundDistance)){
+            // get the surface normal at the point we hit
+            _surfaceNormal = _raycastHit.normal;
+            // check the angle between the surface and the up vector
+            float slopeAngle = Vector3.Angle(_surfaceNormal, Vector3.up);
+            if (slopeAngle <= _maxGroundAngleDeg){
+                isGrounded = true;
+            }
+        }
+    }
+
+### Coordinate space
