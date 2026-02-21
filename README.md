@@ -963,3 +963,53 @@ FodyWeavers.xsd
     ```
     Ray straightDownRay = new Ray(transform.TransformPoint(_slopeRaycastOrigin), Vector3.down);
     ```
+
+### Materials
+- Rendering
+    - Rendering is the process by which everything that's in your Scene becomes the frame that appears on your screen
+    - Determines how the object will react to the light
+- Materials
+    - Materials are a collection of rendering settings - most importantly, a shader - which determine how the object looks and react to the light
+    - Shaders are specialized programs that run on the GPU and actually draw the object to the frame
+        - Determines what the settings the material has
+- Maps
+    - Maps on a materal are the textures used to define how the materials will react to light
+    - The "albedo" and "diffuse" map define the basic colors of the object 
+    - Colors can be applied in many different ways, but the way tints (the color next to albedo) are applied to albedo maps ususally also darken the color overall
+    - The standard shader in Unity uses a rendering style called "physically based rendering", or PBR
+        - PBR materials use albedo, metallic, normal, and other maps + a shader that simulates how the object would react to light in a "realistic" way
+    - Metallic maps define where the object is more or less shiny in a metal-like way
+    - Normal maps create surface details for lighting
+        - We encode surface details into a normal map
+        - A normal map is a texture where every pixel represents a surface normal instead of a color
+        - Normal maps use R,G,B data as the X,Y,Z components of a vector instead  
+- PBR
+    - Used when developer what a photorealistic effect
+- Cel shading
+    - A style of rendering where shadows are sharp, not blended
+
+### Lights
+- 3 main types of lights
+    - Directional
+        - position doesn't matter, just the direction
+        - used to simulate the sun or other main source of light in the scene
+    - Point
+        - create light in a sphere around a location
+    - Spot
+        - create a cone of light, like a flashlight
+- Lighting setting
+    - Window > Lighting
+    - Skybox
+        - A material that creates the background of the world
+    - Sun source
+        - some skyboxes use this to change their appearance based on the light's angle
+    - Environment lighting
+        - the color of light bouncing around the world
+    - Fog
+        - simulates distant fog
+
+### Animators
+- Both 2D and 3D animations are stored using animation clips
+- Animation collections are used to store a collection of clips and decide when to play each clip
+
+### UI
