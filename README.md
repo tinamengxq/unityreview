@@ -1012,4 +1012,118 @@ FodyWeavers.xsd
 - Both 2D and 3D animations are stored using animation clips
 - Animation collections are used to store a collection of clips and decide when to play each clip
 
-### UI
+### Animation Transition
+- Has Exit Time
+    - only should be checked if you want this transition to occur after the state runs for a certain amount of time, even without a condition
+    - Exit time
+        - allow us to set the exact time at which the transitio will occur after the current state begins. 
+- Transition Duration
+    - controls how long the transition lasts for
+- Fixed duration
+    - changes whether the transition duration setting is interpreted as seconds or as a percentage of the state's animation time
+- If your animation transitions don't blend well, set the transition duration to 0
+
+### Branching Dialogue
+- Single dialogue branch
+    - the NPC has an array of lines and 2 player reply methods that will hook up to buttons in the UI.
+    - we store our lines of dialogue in the gameobject
+    - the dialogue buttons in the UI call a specific reply method
+    ```
+    // _lines is an array of the lines of dialogue the duck can say
+    // _currentLine is the index in the _lines array of the line the duck is currently saying
+    private void AdvanceDialogue ()         // runs when the player presses space
+    {
+        _interactionPromptIcon.SetActive(false);
+        _activeDialogueIcon.SetActive(true);
+        
+        _runningDialogue = true;
+
+        if(_currentLine >= _lines.Length)
+        {
+            // if we run out of NPC lines, it's time to show the player dialogue options
+            _dialogue.ShowPlayerOptions();
+            _waitingForPlayerResponse = true;
+        }
+        else 
+        {
+            // otherwise, continue showing NPC dialogue lines
+            _dialogue.ShowDialogue(_lines[_currentLine]);
+        }
+
+        _currentLine++;
+    }
+    ```
+    - once we run out of NPC dialogue lines, we show the player dialogue options
+    - if we're not out of dialogue lines, we show the NPC line at _currentLine
+    - then, we increase _currentLine so it shows a new line next time
+    ```
+    // a button in the UI calls this
+    public void ClickedGoodOption ()
+    {
+        _activeDialogueIcon.SetActive(false);
+        _happyIcon.SetActive(true);
+        _dialogue.ShowDialogue(_goodReply);
+        // display the duck's reaction icon and final line of dialogue
+
+        // dialogue will reset next time it's displayed
+        _currentLine = 0;
+    }
+
+    // a button in the UI calls this
+    public void ClickedBadOption ()
+    {
+        _activeDialogueIcon.SetActive(false);
+        _angerIcon.SetActive(true);
+        _dialogue.ShowDialogue(_badReply);
+
+        _currentLine = 0;
+    }
+    ```
+- Multiple dialogue branches
+    - Recommend using scriptableobjects to be the unique container for dialogue
+    - dialogue data mush include pointers to next possible lines of dialogue in order to branch
+    ```
+    public class DialogueNode : ScriptableObject
+    {
+    // the lines of dialogue the NPC says for this node
+    public string[] _lines;
+    public Sprite _thoughtBubbleSprite;
+
+    // the potential replies from the player
+    public string[] _playerReplyOptions;
+
+    // each index in _playerReplyOptions corresponds to an NPC reply in _npcReplies
+    // so, for example, if the player chooses the first option (= index 0) from _playerReplyOptions,
+    // the next DialogueLine that should be shown is index 0 in _npcReplies
+    public DialogueNode[] _npcReplies;
+    }
+    ```
+    - now, in advanceDialogue, we keep track of the current block of dialogue with the _currentNode variable, which contains its own list of lines
+    - _currentNode is a DialogueNode, which is a ScriptableObject containing the NPC's lines, the player's reply options, and pointers to the NPC's possible replies
+    ```
+    private void AdvanceDialogue ()
+    {
+        _runningDialogue = true;
+        _thoughtBubble.sprite = _currentNode._thoughtBubbleSprite;
+
+        if(_currentLine < _currentNode._lines.Length)
+        {
+            // if we still have NPC lines left, keep playing NPC lines
+            _dialogue.ShowDialogue(_currentNode._lines[_currentLine]);
+            _currentLine++;
+        }
+        else if(_currentNode._playerReplyOptions != null && _currentNode._playerReplyOptions.Length > 0)
+        {
+            // show player dialogue options, if there are any
+            _waitingForPlayerResponse = true;
+            _dialogue.ShowPlayerOptions(_currentNode._playerReplyOptions);
+        }
+        else 
+        {
+            // if there are no NPC or player lines left, close dialogue UI
+            EndDialogue();
+        }
+    }
+    ```
+
+
